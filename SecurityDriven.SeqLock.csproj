@@ -1,0 +1,45 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+	  <PackageId>SeqLock</PackageId>
+	  <TargetFrameworks>net8.0</TargetFrameworks>
+	  <Authors>Stan Drapkin</Authors>
+	  <Company>https://SecurityDriven.net</Company>
+	  <Copyright>Copyright © $([System.DateTime]::UtcNow.ToString(yyyy)) Stan Drapkin</Copyright>
+	  <RepositoryUrl>https://github.com/sdrapkin/SecurityDriven.SeqLock</RepositoryUrl>
+	  <RepositoryType>git</RepositoryType>
+	  <Version>1.0.0</Version>
+	  <SignAssembly>true</SignAssembly>
+	  <AssemblyOriginatorKeyFile>Inferno.snk</AssemblyOriginatorKeyFile>
+	  <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+	  <PackageLicenseExpression>MIT</PackageLicenseExpression>
+	  <PackageIconUrl>https://avatars.githubusercontent.com/u/9137858?s=128</PackageIconUrl>
+	  <PackageReleaseNotes>Placeholder</PackageReleaseNotes>
+	  <Description>A high-performance, optimistic reader-writer synchronization primitive for .NET that enables lock-free, consistent snapshots of compound state in read-heavy scenarios.</Description>
+	  <PackageTags>concurrency;seqlock;threading;lock-free;performance;synchronization;reader-writer;snapshot;parallel;cache-optimization;thread-safety;securitydriven</PackageTags>
+	  <PackageProjectUrl>https://github.com/sdrapkin/SecurityDriven.SeqLock</PackageProjectUrl>
+	  <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+	  <LangVersion>latest</LangVersion>
+	  <Nullable>enable</Nullable>
+	  <PackageReadmeFile>README.md</PackageReadmeFile>
+  </PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+		<DocumentationFile>SecurityDriven.SeqLock.xml</DocumentationFile>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<None Remove="*.xml" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Remove="LICENSE.md" />
+	</ItemGroup>
+	
+	<ItemGroup>
+		<None Include="README.md">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
+	</ItemGroup>
+
+</Project>
