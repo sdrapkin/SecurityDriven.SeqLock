@@ -8,7 +8,7 @@ Summary Comparison of `SeqLock` vs `ReaderWriterLockSlim`in `System.Threading`:
 
 | Feature | SeqLock | ReaderWriterLockSlim |
 |---------|---------|----------------------|
-| **Read Performance** | **Very Fast** (minimal overhead, plain memory loads) | Moderate (Interlocked operations on every read) |
+| **Read Performance** | **Very Fast** (minimal overhead) | Moderate (Interlocked ops on every read) |
 | **Write Performance** | **Fast** (spinlock, minimal coordination) | Slower (state machine, reader coordination) |
 | **Internal Consistency** | Weak (readers may observe intermediate/torn state) | Strong (atomic view guaranteed) |
 | **External Consistency** | **Strong** (retry mechanism ensures valid snapshot) | Strong (lock ensures atomic view) |
