@@ -15,7 +15,7 @@ SpinLock           : 9.40 Million Reads/sec [00:00:02.0161930]
 Monitor (lock)     : 11.14 Million Reads/sec [00:00:02.0035481]
 S.T.Lock           : 9.22 Million Reads/sec [00:00:02.0061076]
 ReadWriteLockSlim  : 22.56 Million Reads/sec [00:00:02.0079093]
-Seqlock            : 305.22 Million Reads/sec [00:00:02.0632036]
+SeqLock            : 305.22 Million Reads/sec [00:00:02.0632036]
 ```
 
 ## What is SeqLock?
@@ -30,7 +30,7 @@ Readers detect writer interference by checking the version before and after read
 * Readers never block, and retry instead of blocking on interference
 
 ## Why use SeqLock?
-Traditional reader–writer locks (ex. `ReaderWriterLockSlim`) provide strong consistency guarantees:
+Traditional reader-writer locks (ex. `ReaderWriterLockSlim`) provide strong consistency guarantees:
 a reader always sees a fully consistent view of shared state. To achieve this, every reader must participate
 in lock coordination via atomic operations and memory fences.
 
