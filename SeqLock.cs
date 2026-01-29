@@ -11,7 +11,7 @@ namespace SecurityDriven
 	///  - Allocates ~200 bytes (~3 cache lines)
 	/// </summary>
 	/// <typeparam name="TState"></typeparam>
-	/// <remarks>Wrap any TState structs in StrongBox<typeparamref name="TState"/> instace.</remarks>
+	/// <remarks>Wrap any TState structs in StrongBox<typeparamref name="TState"/> instance.</remarks>
 	public sealed class SeqLock<TState>(TState state) where TState : class
 	{
 		// cannot use Explicit layout because Generic types cannot have explicit layout
@@ -97,7 +97,7 @@ namespace SecurityDriven
 				// 2. Optimistic Read: The Volatile.Read above (Acquire) ensures we don't read data before checking version.
 				TResult result = reader(arg, _container._state); // might throw
 
-				// 3. StoreLoad Barrier (ARM64 / Weak Memory Model Barrier)
+				// 3. Full Fence (prevent LoadLoad reordering - ARM64 / Weak Memory Model)
 				// MemoryBarrier() is required to prevent reordering of 2nd version-read before the data-read
 				Interlocked.MemoryBarrier();
 
