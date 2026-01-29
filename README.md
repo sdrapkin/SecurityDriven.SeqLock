@@ -5,7 +5,7 @@
 A high-performance, optimistic reader-writer synchronization primitive for .NET that enables lock-free, consistent snapshots of compound state in read-heavy scenarios.
 
 ## SeqLock Benchmarks
-<img width="2816" height="1536" alt="Gemini_Generated_Image_hhpfxlhhpfxlhhpf2" src="https://github.com/user-attachments/assets/0f8f863b-71bf-4148-9f87-f3af1a228a56" />
+<img src="https://github.com/user-attachments/assets/0f8f863b-71bf-4148-9f87-f3af1a228a56" />
 
 ```
 Running Contention Benchmark
