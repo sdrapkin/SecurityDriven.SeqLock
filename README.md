@@ -4,6 +4,19 @@
 
 A high-performance, optimistic reader-writer synchronization primitive for .NET that enables lock-free, consistent snapshots of compound state in read-heavy scenarios.
 
+## SeqLock Benchmarks
+
+```
+Running Contention Benchmark
+Cores: 8 | Writers: 1 | Readers: 16
+-----------------------------------------------------------------
+SpinLock           : 9.40 Million Reads/sec [00:00:02.0161930]
+Monitor (lock)     : 11.14 Million Reads/sec [00:00:02.0035481]
+S.T.Lock           : 9.22 Million Reads/sec [00:00:02.0061076]
+ReadWriteLockSlim  : 22.56 Million Reads/sec [00:00:02.0079093]
+Seqlock            : 305.22 Million Reads/sec [00:00:02.0632036]
+```
+
 ## What is SeqLock?
 `SeqLock` ([sequence lock](https://en.wikipedia.org/wiki/Seqlock)) is a *reader-optimized synchronization primitive* designed for
 scenarios where reads are much more frequent than writes. It allows multiple readers to access shared data concurrently
@@ -72,3 +85,50 @@ systems - especially under heavy read concurrency.
 | **Extra Features** | None | Write-upgradeable read locks, recursion support, timeouts |
 | **Best For** | Struct/blittable data, read-often workloads | Complex objects, general-purpose use, mixed I/O |
 | **Worst For** | Write-heavy scenarios | Extreme read-heavy scenarios |
+
+## How to use SeqLock
+
+### Install and Setup
+* Install the NuGet package: `Install-Package SeqLock`
+* Add `SecurityDriven` namespace to your file: ```using SecurityDriven;```
+
+### Initialize SeqLock
+
+* Constructor API:
+```csharp
+public static SeqLock<TState> Create<TState>(TState state) where TState : class
+```
+* Instantiate a `SeqLock` object to protect your shared state:
+```csharp
+public class SharedState { public double X, Y, Z; }
+static SeqLock<SharedState> seqlock =
+	SeqLock.Create(new SharedState());
+```
+* If your shared state is a struct, wrap it in `StrongBox<T>` instead:
+```csharp
+// add "using System.Runtime.CompilerServices;" to the top of your file
+public struct SharedState { public double X, Y, Z; }
+static SeqLock<StrongBox<SharedState>> seqlock =
+	SeqLock.Create(new StrongBox<SharedState>());
+```
+
+### Reading and Writing Shared State via SeqLock
+* Reader and Writer APIs:
+```csharp
+public TResult Read<TArg, TResult>(TArg arg, Func<TArg, TState, TResult> reader)
+public void Write<TArg>(TArg arg, Action<TArg, TState> writer)
+```
+* To **read shared state**, use the `Read` method with a reader function:
+```csharp
+// since this reader does not pass in an argument, we use "default(ValueTuple)" empty struct
+double sum = seqlock.Read(default(ValueTuple), (_, s) => s.X + s.Y + s.Z);
+```
+* To **write shared state**, use the `Write` method with a writer action:
+```csharp
+seqlock.Write(Random.Shared.NextDouble(), (v, s) =>
+	{
+		s.X = v;
+		s.Y = v + 1;
+		s.Z = v + 2;
+	});
+```
